@@ -1,0 +1,5 @@
+{
+  "name": "Observable Data Generator",
+  "description": "An application that uses AI to generate robust sample data functions for use in Observable notebooks. Configure parameters like trend, seasonality, and noise to create custom JavaScript data generation code.",
+  "requestFramePermissions": []
+}
