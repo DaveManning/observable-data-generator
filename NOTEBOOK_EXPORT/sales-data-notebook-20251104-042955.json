@@ -1,0 +1,57 @@
+﻿{
+  "cells": [
+    {
+      "id": "intro",
+      "body": "# Monthly Sales Data Explorer\n\nThis notebook demonstrates generating and visualizing synthetic sales data with configurable patterns. Uses Plot for visualization and exports to CSV/PNG.\n\n## Setup & dependencies",
+      "mode": "md"
+    },
+    {
+      "id": "imports",
+      "body": "// Import Observable Plot\nimport Plot from \"@observablehq/plot\"\n\n// Import our data generator and helpers\nimport { generateMonthlySalesData, presets, seededRng, dataToCSV, exportSvgToPng, analyzeTrends } \n  from \"https://gist.githubusercontent.com/DaveManning/617cd72c8259f05e06d78f901bf70e45/raw/notebook_cells.module.js\"",
+      "mode": "js"
+    },
+    {
+      "id": "viewof-preset",
+      "body": "// Pattern selector\nviewof preset = Inputs.select(Object.keys(presets), {\n  label: \"Pattern\",\n  value: \"default\"\n})",
+      "mode": "js"
+    },
+    {
+      "id": "viewof-seed",
+      "body": "// Random seed (for reproducibility)\nviewof seed = Inputs.number({\n  label: \"Random seed\",\n  value: 42,\n  step: 1,\n  min: 1,\n  max: 999999\n})",
+      "mode": "js"
+    },
+    {
+      "id": "data",
+      "body": "// Generate data using selected preset and seed\ndata = {\n  const opts = { ...presets[preset], seed };\n  const rng = seededRng(opts.seed);\n  return generateMonthlySalesData({ ...opts, rng });\n}",
+      "mode": "js"
+    },
+    {
+      "id": "chart",
+      "body": "// Plot time series with category colors\nchart = {\n  const height = 480;\n  return Plot.plot({\n    title: `Monthly Sales by Category (${preset})`,\n    subtitle: `Using random seed: ${seed}`,\n    height,\n    x: { label: \"Date\" },\n    y: { label: \"Sales ($)\", grid: true },\n    color: { legend: true },\n    marks: [\n      Plot.line(data, {\n        x: \"date\",\n        y: \"sales\",\n        stroke: \"category\",\n        strokeWidth: 2\n      }),\n      Plot.dot(data, {\n        x: \"date\",\n        y: \"sales\",\n        stroke: \"category\",\n        fill: \"white\"\n      })\n    ]\n  });\n}",
+      "mode": "js"
+    },
+    {
+      "id": "stats",
+      "body": "// Calculate trend statistics\nstats = analyzeTrends(data)",
+      "mode": "js"
+    },
+    {
+      "id": "statsmd",
+      "body": "## Trend Analysis\n\n${Object.entries(stats).map(([cat, s]) => `\n### ${cat}\n- Slope: ${s.slope.toFixed(2)} units/month\n- RÂ²: ${(s.r2 * 100).toFixed(1)}%\n`).join('')}",
+      "mode": "md"
+    },
+    {
+      "id": "export-buttons",
+      "body": "// Export buttons\nfunction exportPNG() {\n  const svg = chart.querySelector('svg');\n  exportSvgToPng(svg);\n}\n\nfunction exportCSV() {\n  const filename = `sales-data-${preset}-${seed}.csv`;\n  const blob = new Blob([dataToCSV(data)], { type: 'text/csv' });\n  const url = URL.createObjectURL(blob);\n  const a = document.createElement('a');\n  a.href = url;\n  a.download = filename;\n  a.click();\n  URL.revokeObjectURL(url);\n}\n\nreturn html`\n<div style=\"display: flex; gap: 1rem;\">\n  <button onclick=\"${exportPNG}\">Export PNG</button>\n  <button onclick=\"${exportCSV}\">Export CSV</button>\n</div>`",
+      "mode": "js"
+    },
+    {
+      "id": "help",
+      "body": "## Usage Tips\n\n1. Choose a pattern preset to control the data characteristics:\n   - default: balanced trend and seasonality\n   - highSeasonality: strong seasonal pattern\n   - strongTrend: clear upward trend\n   - highVolatility: more noise/variance\n   - stable: minimal trend and seasonality\n   - quarterly: 3-month seasonal cycle\n\n2. Change the random seed to generate different variations while keeping the same pattern.\n\n3. Use the export buttons to:\n   - Save the chart as PNG (includes title and legend)\n   - Download raw data as CSV for further analysis\n\n4. The trend analysis shows:\n   - Slope: average change per month\n   - RÂ²: how well a linear trend fits (0-100%)",
+      "mode": "md"
+    }
+  ],
+  "title": "Monthly Sales Data Explorer",
+  "description": "Interactive visualization of synthetic sales data with configurable patterns and export capabilities.",
+  "version": 1
+}
