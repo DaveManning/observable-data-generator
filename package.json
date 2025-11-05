@@ -9,6 +9,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+<<<<<<< HEAD
     "@google/genai": "^1.27.0",
     "chart.js": "^4.5.1",
     "d3": "^7.9.0",
@@ -16,6 +17,11 @@
     "react-chartjs-2": "^5.3.1",
     "react-dom": "^19.2.0",
     "seedrandom": "^3.0.5"
+=======
+    "react": "^19.2.0",
+    "@google/genai": "^1.27.0",
+    "react-dom": "^19.2.0"
+>>>>>>> 3601d87b64dbad8de69035df42d9401cc8f2479b
   },
   "devDependencies": {
     "@types/node": "^22.14.0",
