@@ -7,7 +7,7 @@
     },
     {
       "id": "imports",
-      "body": "// Import Observable Plot\nimport Plot from \"@observablehq/plot\"\n\n// Import our data generator and helpers\nimport { generateMonthlySalesData, presets, seededRng, dataToCSV, exportSvgToPng, analyzeTrends } \n  from \"https://gist.githubusercontent.com/DaveManning/617cd72c8259f05e06d78f901bf70e45/raw/notebook_cells.module.js\"",
+      "body": "// Import Observable Plot\nimport Plot from \"@observablehq/plot\"\n\n// Import our data generator and helpers\nimport { generateMonthlySalesData, presets, seededRng, dataToCSV, exportSvgToPng, analyzeTrends } \n  from \"https://cdn.jsdelivr.net/gh/DaveManning/observable-data-generator@main/GIST_PAYLOAD/notebook_cells.module.js\"",
       "mode": "js"
     },
     {

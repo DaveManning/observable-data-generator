@@ -1,0 +1,79 @@
+{
+  "cells": [
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "c1a2b3f0",
+        "language": "markdown"
+      },
+      "source": [
+        "# Monthly Sales Data — Minimal Import",
+        "",
+        "This minimal notebook imports the module and runs basic smoke tests for data generation, plotting, and CSV export. Use `Run` on each cell to evaluate."
+      ]
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "d4e5f6a1",
+        "language": "js"
+      },
+      "source": [
+        "import Plot from \"@observablehq/plot\"",
+        "import { Inputs } from \"@observablehq/inputs\"",
+        "import { generateMonthlySalesData, presets, seededRng, dataToCSV, exportSvgToPng, analyzeTrends }",
+        "  from \"https://cdn.jsdelivr.net/gh/DaveManning/observable-data-generator@main/GIST_PAYLOAD/notebook_cells.module.js\""
+      ]
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "a7b8c9d2",
+        "language": "js"
+      },
+      "source": [
+        "// Generate 12 months of test data using a fixed seed",
+        "testData = {",
+        "  const rng = seededRng(42);",
+        "  return generateMonthlySalesData({ rng, count: 12 });",
+        "}"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "e1f2g3h4",
+        "language": "js"
+      },
+      "source": [
+        "// Quick plot to verify visualization",
+        "testChart = {",
+        "  const data = testData;",
+        "  return Plot.plot({",
+        "    height: 360,",
+        "    x: { label: \"Date\" },",
+        "    y: { label: \"Sales ($)\", grid: true },",
+        "    marks: [",
+        "      Plot.line(data, { x: \"date\", y: \"sales\" }),",
+        "      Plot.dot(data, { x: \"date\", y: \"sales\" })",
+        "    ]",
+        "  });",
+        "}"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "h4i5j6k7",
+        "language": "js"
+      },
+      "source": [
+        "// Export CSV text for quick check",
+        "csvText = dataToCSV(testData)"
+      ]
+    }
+  ],
+  "title": "Minimal Monthly Sales Import",
+  "description": "Minimal notebook to import the sales data module and run a short smoke test.",
+  "version": 1
+}
